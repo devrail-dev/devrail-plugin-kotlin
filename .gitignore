@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Docker build artifacts
+*.tar
+*.tar.gz
+docker-compose.override.yml
+
+# Temporary files
+tmp/
+*.tmp
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# DevRail generated output
+.devrail-output/
+
+# DevRail extended-image build pipeline (Story 13.4b)
+.devrail/
+.devrail-plugins-build/
+Dockerfile.devrail

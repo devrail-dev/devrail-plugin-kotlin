@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Pull the dev-toolchain image once. The plugin's Makefile delegates
+      # all `make check` work to this container (same DevRail contract as
+      # any other DevRail-managed repo).
+      - name: Pull dev-toolchain image
+        run: docker pull ghcr.io/devrail-dev/dev-toolchain:v1
+
+      # Run the standard DevRail validation: shellcheck + shfmt + trivy +
+      # gitleaks against the plugin's own files (install.sh, manifest,
+      # README, etc.).
+      - name: Run make check
+        env:
+          DEVRAIL_TAG: v1
+        run: make check
+
+  validate-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Validate plugin.devrail.yml with the dev-toolchain validator. This
+      # runs schema_version + name regex + semver + targets + gates checks.
+      - name: Pull dev-toolchain image
+        run: docker pull ghcr.io/devrail-dev/dev-toolchain:v1
+
+      - name: Validate plugin manifest
+        run: |
+          docker run --rm \
+            -v "$(pwd):/plugin:ro" \
+            ghcr.io/devrail-dev/dev-toolchain:v1 \
+            bash /opt/devrail/scripts/plugin-validator.sh /plugin/plugin.devrail.yml

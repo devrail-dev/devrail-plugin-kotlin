@@ -1,0 +1,11 @@
+# .devrail.yml — devrail-plugin-kotlin
+#
+# Lints + formats the plugin's own bash install script and YAML manifest.
+# Plugin manifest validation happens through dev-toolchain's loader; this
+# repo only needs bash standards for install.sh.
+
+languages:
+  - bash
+
+fail_fast: false
+log_format: json

@@ -1,0 +1,62 @@
+# plugin.devrail.yml — devrail-plugin-kotlin
+#
+# Reference plugin extracted from dev-toolchain core (Story 13.7).
+# Provides Kotlin language ecosystem support: ktlint (lint+format),
+# detekt (static analysis), Gradle (build/test), OWASP dependency-check
+# (security), JDK 21 (Eclipse Temurin).
+#
+# Consumers declare in .devrail.yml:
+#
+#   plugins:
+#     - source: github.com/devrail-dev/devrail-plugin-kotlin
+#       rev: v1.0.0
+#       languages: [kotlin]
+#
+# The dev-toolchain build pipeline (Story 13.4) layers this plugin's
+# container fragment onto ghcr.io/devrail-dev/dev-toolchain:v1 to produce
+# a project-local extended image (devrail-local:<hash>).
+
+schema_version: 1
+name: kotlin
+version: 1.0.0
+description: "Kotlin language ecosystem for DevRail (ktlint, detekt, Gradle, JDK 21)"
+devrail_min_version: 1.10.0
+
+container:
+  base_image: eclipse-temurin:21-jdk
+  copy_from_builder:
+    - /opt/java/openjdk
+  env:
+    JAVA_HOME: /opt/java/openjdk
+    PATH: "/opt/java/openjdk/bin:${PATH}"
+  install_script: install.sh
+
+# Targets mirror dev-toolchain's HAS_KOTLIN behaviour. Composite linting
+# (ktlint + detekt) is collapsed into a single `lint.cmd` via && — the v1
+# plugin contract is one cmd per target. Plugin authors can override
+# either tool individually via the consumer's .devrail.yml:
+#
+#   kotlin:
+#     linter: "ktlint"           # drops detekt
+#
+targets:
+  lint:
+    cmd: "ktlint && (test -f detekt.yml && detekt-cli --build-upon-default-config --config detekt.yml || detekt-cli --build-upon-default-config)"
+  format_check:
+    cmd: "ktlint --format --dry-run"
+  format_fix:
+    cmd: "ktlint --format"
+  test:
+    cmd: "gradle test --no-daemon"
+  security:
+    cmd: "gradle dependencyCheckAnalyze --no-daemon"
+
+# Gates: a Gradle Kotlin project is identified by build.gradle.kts (or
+# build.gradle for Groovy DSL projects that still use Kotlin sources).
+# We gate on either to support both.
+gates:
+  lint: ["build.gradle.kts"]
+  format_check: ["build.gradle.kts"]
+  format_fix: ["build.gradle.kts"]
+  test: ["build.gradle.kts"]
+  security: ["build.gradle.kts"]
