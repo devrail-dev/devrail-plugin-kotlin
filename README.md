@@ -116,7 +116,7 @@ All commits use [conventional commit format](https://github.com/devrail-dev/devr
 
 ## See also
 
-- [Plugin architecture design doc](https://github.com/devrail-dev/dev-toolchain/blob/main/docs/plugin-architecture.md)
+- [Plugin architecture design doc](https://github.com/devrail-dev/devrail-standards/blob/main/_bmad-output/planning-artifacts/plugin-architecture-design.md)
 - [Contributing a Plugin guide](https://github.com/devrail-dev/devrail-standards/blob/main/standards/contributing.md#contributing-a-plugin)
 - [`.devrail.yml` schema](https://github.com/devrail-dev/devrail-standards/blob/main/standards/devrail-yml-schema.md)
 - [Release blog post](https://devrail.dev/blog/2026-05-05-plugin-architecture/)
