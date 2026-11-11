@@ -1,0 +1,8 @@
+# Weekly dependency updates for the manifests maintained in this repository.
+# Add an entry when introducing a new package ecosystem or manifest directory.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

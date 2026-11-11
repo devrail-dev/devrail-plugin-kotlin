@@ -120,3 +120,10 @@ All commits use [conventional commit format](https://github.com/devrail-dev/devr
 - [Contributing a Plugin guide](https://github.com/devrail-dev/devrail-standards/blob/main/standards/contributing.md#contributing-a-plugin)
 - [`.devrail.yml` schema](https://github.com/devrail-dev/devrail-standards/blob/main/standards/devrail-yml-schema.md)
 - [Release blog post](https://devrail.dev/blog/2026-05-05-plugin-architecture/)
+
+## Dependency updates
+
+Dependabot checks supported manifests and GitHub Actions weekly.
+See [`.github/dependabot.yml`](.github/dependabot.yml) for ecosystem coverage;
+add an entry when introducing a new package ecosystem or manifest directory.
+Dependency pull requests still require normal review and CI; auto-merge is not enabled.
