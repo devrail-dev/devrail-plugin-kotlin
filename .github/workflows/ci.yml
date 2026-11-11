@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Pull the dev-toolchain image once. The plugin's Makefile delegates
       # all `make check` work to this container (same DevRail contract as
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Validate plugin.devrail.yml with the dev-toolchain validator. This
       # runs schema_version + name regex + semver + targets + gates checks.
